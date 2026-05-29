@@ -15,10 +15,12 @@ a top-to-bottom walkthrough from raw data to a saved, deployable model. Every
 term below is explained for a general audience; see [`GLOSSARY.md`](GLOSSARY.md)
 for definitions.
 
-**Prefer a one-glance overview?** [`Technical_Brief.pdf`](Technical_Brief.pdf)
-is a polished two-page brief (UC Berkeley format): page 1 summarizes the problem,
-approach, models, features, evaluation, and data sources; page 2 is an
-illustrated glossary of key terms.
+**The original problem statement** is [`Original_Technical_Brief_FEB2026.pdf`](Original_Technical_Brief_FEB2026.pdf)
+— a polished two-page brief (UC Berkeley format) written at the start of the
+project: page 1 lays out the problem, planned approach, models, features,
+evaluation, and data sources; page 2 is an illustrated glossary. It captures the
+*plan*; the finished work confirmed most of it and refined a few things — see
+[§8, "What changed since the original brief"](#8-what-changed-since-the-original-brief).
 
 ---
 
@@ -138,18 +140,55 @@ work (with a small "same time yesterday" bump).
 
 ---
 
+## 8. What changed since the original brief
+
+[`Original_Technical_Brief_FEB2026.pdf`](Original_Technical_Brief_FEB2026.pdf) was the project's **problem
+statement**, written ~8 months before this submission. Most of its plan held up;
+a few things evolved as the work met real data. For transparency:
+
+**Confirmed as planned**
+- All four models were built — Ridge, Lasso, Random Forest, XGBoost — *plus* the
+  LSTM (which the brief listed only as a stretch goal).
+- XGBoost beat the linear baseline by **+23% RMSE** — inside the brief's
+  predicted 15–25%.
+- The planned evaluation (RMSE/MAE/R², expanding-window time-series
+  cross-validation, feature-importance ranking) was all done.
+
+**Changed**
+- **Weather data source: Open-Meteo / ERA5, not NSRDB.** The brief planned to use
+  NSRDB for weather. NSRDB's current endpoint only covers 2018 onward, so for the
+  2014–2017 data window we used **Open-Meteo (ERA5 reanalysis)** instead — same
+  fields (GHI/DNI/DHI, temperature, wind, humidity, cloud cover), free and
+  spanning the full period.
+- **Top predictors.** The brief expected GHI and cloud cover to dominate. With no
+  on-site sensor, the model leans most on **solar geometry (sun angle) and GHI**;
+  when the on-site sun sensor *is* available, **it dominates everything**.
+- **Lag features help mainly short-term.** They give a large boost ~1 hour ahead
+  (~25% error cut) but little at 6 hours — more horizon-dependent than the brief
+  implied.
+- **Cross-site scope.** The Colorado site (System 1332) was tested on one full
+  year (2017) rather than its full 11-year history.
+- **Interaction feature** used was POA × panel-temperature (not GHI × temperature).
+
+**Added beyond the brief**
+- SHAP explanations, **two-way hyperparameter tuning** (grid search + Optuna),
+  **capacity-factor cross-site transfer**, **multi-horizon (1/6/24 h) forecasting**,
+  a **vision-based sensor-replacement design**, and a **saved, reloadable model**.
+
+---
+
 ## Repository contents
 
 ```
-README.md                   ← this file (non-technical, covers the whole project)
-Technical_Brief.pdf         ← two-page formatted brief + glossary (UC Berkeley format)
-Solar_PV_Forecasting.ipynb  ← FULL technical analysis in one notebook (15 sections)
-GLOSSARY.md                 ← plain-English definitions of every term
-requirements.txt            ← exact software versions
-models/                     ← the saved, reloadable model (pickle + joblib)
-figures/                    ← charts used in this report
-data/                       ← input data + source/licensing notes
-scripts/                    ← data-fetch / reproducibility helpers
+README.md                            ← this file (non-technical, covers the whole project)
+Original_Technical_Brief_FEB2026.pdf ← original problem statement + glossary (UC Berkeley format)
+Solar_PV_Forecasting.ipynb           ← FULL technical analysis in one notebook (15 sections)
+GLOSSARY.md                          ← plain-English definitions of every term
+requirements.txt                     ← exact software versions
+models/                              ← the saved, reloadable model (pickle + joblib)
+figures/                             ← charts used in this report
+data/                                ← input data + source/licensing notes
+scripts/                             ← data-fetch / reproducibility helpers
 ```
 
 **To reproduce:**
