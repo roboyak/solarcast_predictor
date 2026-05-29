@@ -201,4 +201,4 @@ python -m nbconvert --to notebook --execute Solar_PV_Forecasting.ipynb
 The notebook runs top-to-bottom with no errors and depends only on the cached
 data in `data/`.
 
-**Contact:** Shawn Cunningham — shawn@layer3dev.com
+**Contact:** Shawn Cunningham — shawn @ layer3dev.com
