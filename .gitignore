@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Jupyter
+.ipynb_checkpoints/
+*.executed.ipynb
+_validate.ipynb
+
+# OS
+.DS_Store
+
+# Local env / secrets
+.env
