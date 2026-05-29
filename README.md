@@ -15,6 +15,11 @@ a top-to-bottom walkthrough from raw data to a saved, deployable model. Every
 term below is explained for a general audience; see [`GLOSSARY.md`](GLOSSARY.md)
 for definitions.
 
+**Prefer a one-glance overview?** [`Technical_Brief.pdf`](Technical_Brief.pdf)
+is a polished two-page brief (UC Berkeley format): page 1 summarizes the problem,
+approach, models, features, evaluation, and data sources; page 2 is an
+illustrated glossary of key terms.
+
 ---
 
 ## 1. The problem (plain language)
@@ -136,14 +141,15 @@ work (with a small "same time yesterday" bump).
 ## Repository contents
 
 ```
-README.md                  ← this file (non-technical, covers both phases)
-Solar_PV_Forecasting.ipynb ← FULL analysis in one notebook (14 sections)
-GLOSSARY.md                         ← plain-English definitions of every term
-requirements.txt                    ← exact software versions
-models/                             ← the saved, reloadable model (pickle + joblib)
-figures/                            ← charts used in this report
-data/                               ← input data + source/licensing notes
-scripts/                            ← reproducibility helpers
+README.md                   ← this file (non-technical, covers the whole project)
+Technical_Brief.pdf         ← two-page formatted brief + glossary (UC Berkeley format)
+Solar_PV_Forecasting.ipynb  ← FULL technical analysis in one notebook (15 sections)
+GLOSSARY.md                 ← plain-English definitions of every term
+requirements.txt            ← exact software versions
+models/                     ← the saved, reloadable model (pickle + joblib)
+figures/                    ← charts used in this report
+data/                       ← input data + source/licensing notes
+scripts/                    ← data-fetch / reproducibility helpers
 ```
 
 **To reproduce:**
